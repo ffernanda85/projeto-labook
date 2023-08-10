@@ -4,7 +4,7 @@ CREATE TABLE users(
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT('NORMAL'),
+    role TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME())
 );
 
@@ -14,15 +14,14 @@ VALUES
     ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123'),
     ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018');
 
-
-DROP TABLE posts;
+DROP TABLE users;
 
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     creator_id TEXT NOT NULL,
     content TEXT NOT NULL,
-    likes INTEGER DEFAULT(0) NOT NULL,
-    dislikes INTEGER DEFAULT(0) NOT NULL,
+    likes INTEGER NOT NULL,
+    dislikes INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME()),
     update_at TEXT NOT NULL DEFAULT(DATETIME()),
     Foreign Key (creator_id) REFERENCES users(id)

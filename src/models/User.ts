@@ -10,7 +10,12 @@ export interface TokenPayload {
 }
 
 export interface UserDB {
-    
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: USER_ROLES,
+    created_at: string
 }
 
 /* export class User{
@@ -41,6 +46,5 @@ export interface UserDB {
     public setPassword(newPassword : string): void {
         this.password = newPassword;
     }
-    
 }
  */

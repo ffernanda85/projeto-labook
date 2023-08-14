@@ -8,11 +8,11 @@ CREATE TABLE users(
     created_at TEXT NOT NULL DEFAULT(DATETIME())
 );
 
-INSERT INTO users(id, name, email, password)
+INSERT INTO users(id, name, email, password, role)
 VALUES
-    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123'),
-    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123'),
-    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018');
+    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123', 'NORMAL'),
+    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123', 'NORMAL'),
+    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018', 'NORMAL');
 
 DROP TABLE users;
 
@@ -29,10 +29,10 @@ CREATE TABLE posts(
     --ON DELETE CASCADE
 );
 
-INSERT INTO posts(id, creator_id, content)
+INSERT INTO posts(id, creator_id, content, likes, dislikes)
 VALUES
-    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023'),
-    ('p002', 'u003', 'olá, O SENHOR é conosco');
+    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023', 0, 0),
+    ('p002', 'u003', 'olá, O SENHOR é conosco', 0, 0);
 
 CREATE TABLE likes(
     user_id TEXT NOT NULL,

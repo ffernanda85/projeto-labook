@@ -4,25 +4,24 @@ CREATE TABLE users(
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT('NORMAL'),
+    role TEXT NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME())
 );
 
-INSERT INTO users(id, name, email, password)
+INSERT INTO users(id, name, email, password, role)
 VALUES
-    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123'),
-    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123'),
-    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018');
+    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123', 'NORMAL'),
+    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123', 'NORMAL'),
+    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018', 'NORMAL');
 
-
-DROP TABLE posts;
+DROP TABLE users;
 
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     creator_id TEXT NOT NULL,
     content TEXT NOT NULL,
-    likes INTEGER DEFAULT(0) NOT NULL,
-    dislikes INTEGER DEFAULT(0) NOT NULL,
+    likes INTEGER NOT NULL,
+    dislikes INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME()),
     update_at TEXT NOT NULL DEFAULT(DATETIME()),
     Foreign Key (creator_id) REFERENCES users(id)
@@ -30,10 +29,10 @@ CREATE TABLE posts(
     --ON DELETE CASCADE
 );
 
-INSERT INTO posts(id, creator_id, content)
+INSERT INTO posts(id, creator_id, content, likes, dislikes)
 VALUES
-    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023'),
-    ('p002', 'u003', 'olá, O SENHOR é conosco');
+    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023', 0, 0),
+    ('p002', 'u003', 'olá, O SENHOR é conosco', 0, 0);
 
 CREATE TABLE likes(
     user_id TEXT NOT NULL,

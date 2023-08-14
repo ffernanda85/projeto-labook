@@ -15,4 +15,6 @@ export abstract class BaseDatabase {
             }
         }
     })
+
+    abstract TABLE_NAME: string
 }

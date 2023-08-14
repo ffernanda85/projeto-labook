@@ -20,9 +20,8 @@ export class UserBusiness{
             created_at: new Date().toISOString()
         }
         await this.userDatabase.signup(newUserDB)
-        
+
         const output: SignupOutputDTO = {
-            message: 'created user',
             token: 'created token'
         }
 

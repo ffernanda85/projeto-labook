@@ -1,7 +1,6 @@
 import z from 'zod'
 
 export interface SignupInputDTO {
-    id: string,
     name: string,
     email: string,
     password: string

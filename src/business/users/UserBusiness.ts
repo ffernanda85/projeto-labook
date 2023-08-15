@@ -1,15 +1,18 @@
 import { UserDatabase } from "../../database/UserDatabase";
 import { SignupInputDTO, SignupOutputDTO } from "../../dtos/users/signup.dto";
 import { USER_ROLES, UserDB } from "../../models/User";
+import { IdGenerator } from "../../services/IdGenerator";
 
 export class UserBusiness{
     constructor(
-        private userDatabase: UserDatabase
+        private userDatabase: UserDatabase,
+        private idGenerator: IdGenerator
     ) { }
     
     signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
         
-        const { id, name, email, password } = input
+        const { name, email, password } = input
+        const id = this.idGenerator.generate()
 
         const newUserDB: UserDB = {
             id,

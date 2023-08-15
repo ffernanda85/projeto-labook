@@ -18,33 +18,73 @@ export interface UserDB {
     created_at: string
 }
 
-/* export class User{
+export class User {    
     constructor(
+        private id: string,
         private name: string,
         private email: string,
-        private password: string
-    ) { }
+        private password: string,
+        private role: USER_ROLES,
+        private createdAt: string
+    ) {}
 
-     //MÉTODOS SETTERS E GETTERS 
-    public getName() : string {
+    public getId(): string {
+        return this.id
+    }
+    
+    public setId(value: string): void {
+        this.id = value
+    }
+
+    public getName(): string {
         return this.name
     }
-    public setName(newName : string): void {
-        this.name = newName;
+
+    public setName(value: string): void {
+        this.name = value
     }
-    
-    public getEmail() : string {
+
+    public getEmail(): string {
         return this.email
     }
-    public setEmail(newEmail : string): void {
-        this.email = newEmail;
+
+    public setEmail(value: string): void {
+        this.email = value
     }
-    
-    public getPassword() : string {
+
+    public getPassword(): string {
         return this.password
     }
-    public setPassword(newPassword : string): void {
-        this.password = newPassword;
+
+    public setPassword(value: string): void {
+        this.password = value
     }
+
+    public getRole(): USER_ROLES {
+        return this.role
+    }
+
+    public setRole(value: USER_ROLES): void {
+        this.role = value
+    }
+
+    public getCreatedAt(): string {
+        return this.createdAt
+    }
+
+    public setCreatedAt(value: string): void {
+        this.createdAt = value
+    }
+
+    public toDBModel(): UserDB {
+        return {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            password: this.password,
+            role: this.role,
+            created_at: this.createdAt
+        }
+    }
+
 }
- */

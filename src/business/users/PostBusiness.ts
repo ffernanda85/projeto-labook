@@ -1,3 +1,4 @@
+import { PostDatabase } from "../../database/PostDatabase";
 import { CreatePostInputDTO } from "../../dtos/posts/createPost.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { TokenPayload } from "../../models/User";
@@ -19,6 +20,6 @@ export class PostBusiness{
             throw new BadRequestError("'TOKEN'invalid");
         }
 
-        await this.postDatabase.insertPost()
+        /* await this.postDatabase.insertPost() */
     }
 }

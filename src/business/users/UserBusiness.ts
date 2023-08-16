@@ -4,6 +4,7 @@ import { SignupInputDTO, SignupOutputDTO } from "../../dtos/users/signup.dto";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { TokenPayload, USER_ROLES, User, UserDB } from "../../models/User";
+import { HashManager } from "../../services/HashManager";
 import { IdGenerator } from "../../services/IdGenerator";
 import { TokenManager } from "../../services/TokenManager";
 
@@ -11,19 +12,29 @@ export class UserBusiness{
     constructor(
         private userDatabase: UserDatabase,
         private idGenerator: IdGenerator,
-        private tokenManager: TokenManager
+        private tokenManager: TokenManager,
+        private hashManager: HashManager
     ) { }
     
     signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
         
         const { name, email, password } = input
+        /* Verificando se já existe esse email no DB */
+        const emailExistsDB = await this.userDatabase.findUserByEmail(email)
+        /* Se email constar no DB dispara uma BadRequest */
+        if (emailExistsDB) {
+            throw new BadRequestError("'EMAIL' already resgistered");
+        }
+        /* Gerando ID aleatório */
         const id = this.idGenerator.generate()
+        /* Hasheando password */
+        const hashedPassword = await this.hashManager.hash(password)
 
         const newUser = new User(
             id,
             name,
             email,
-            password,
+            hashedPassword,
             USER_ROLES.NORMAL,
             new Date().toISOString()
         ) 
@@ -50,15 +61,29 @@ export class UserBusiness{
         if (!userDBExist) {
             throw new NotFoundError("Email not registered");
         }
+        const plainText = userDBExist.password
+        const isPasswordsMatch = await this.hashManager.compare(password, plainText)
 
-        if (password !== userDBExist.password) {
+        if (!isPasswordsMatch) {
             throw new BadRequestError("password does not match");
         }
-
-        const output: LoginOutputDTO = {
-            token: "token"
+        const user = new User(
+            userDBExist.id,
+            userDBExist.name,
+            userDBExist.email,
+            userDBExist.password,
+            userDBExist.role,
+            userDBExist.created_at
+        )
+        const payload: TokenPayload = {
+            id: user.getId(),
+            name: user.getName(),
+            role: user.getRole()
         }
-
+        const token = this.tokenManager.createToken(payload)
+        const output: LoginOutputDTO = {
+            token
+        }
         return output
     }
 }

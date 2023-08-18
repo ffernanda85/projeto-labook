@@ -3,13 +3,15 @@ import { PostController } from '../controller/PostController'
 import { PostBusiness } from '../business/users/PostBusiness'
 import { TokenManager } from '../services/TokenManager'
 import { PostDatabase } from '../database/PostDatabase'
+import { IdGenerator } from '../services/IdGenerator'
 
 export const postRouter = express.Router()
 
 const postController = new PostController(
     new PostBusiness(
         new TokenManager(),
-        new PostDatabase()
+        new PostDatabase(),
+        new IdGenerator()
     )
 )
 

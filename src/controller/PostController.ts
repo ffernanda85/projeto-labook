@@ -11,7 +11,7 @@ export class PostController{
         private postBusiness: PostBusiness
     ){}
 
-    createPost = async (req: Request, res: Response) => {
+    public createPost = async (req: Request, res: Response): Promise<void> => {
         try {
 
             const input = CreatePostSchema.parse({
@@ -34,4 +34,6 @@ export class PostController{
             }
         }
     }
+
+    
 }

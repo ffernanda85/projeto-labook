@@ -23,7 +23,7 @@ CREATE TABLE posts(
     likes INTEGER NOT NULL,
     dislikes INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME()),
-    update_at TEXT NOT NULL DEFAULT(DATETIME()),
+    updated_at TEXT NOT NULL DEFAULT(DATETIME()),
     Foreign Key (creator_id) REFERENCES users(id)
     --ON UPDATE CASCADE
     --ON DELETE CASCADE
@@ -55,4 +55,4 @@ VALUES
     ('u003', 'p001', 1),
     ('u003', 'p002', 1);
 
-DROP TABLE users;
+DROP TABLE posts;

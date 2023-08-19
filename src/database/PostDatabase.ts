@@ -25,4 +25,14 @@ export class PostDatabase extends BaseDatabase {
 
         return postsDB
     }
+
+    public getPostById = async (id: string): Promise<PostModelDB> => {
+        const [postDB]: PostModelDB[] = await BaseDatabase.connection(this.TABLE_NAME).where({ id })
+        
+        return postDB
+    }
+
+    public updatePost = async (postUpdate: PostModelDB): Promise<void> => {
+        await BaseDatabase.connection(this.TABLE_NAME).update(postUpdate).where({id : postUpdate.id })
+    }
 }

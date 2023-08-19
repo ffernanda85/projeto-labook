@@ -1,7 +1,9 @@
 import { PostDatabase } from "../database/PostDatabase";
 import { CreatePostInputDTO } from "../dtos/posts/createPost.dto";
+import { EditPostInputDTO } from "../dtos/posts/editPost.dto";
 import { GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/posts/getPost.dto";
 import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
 import { Post, PostModel, PostModelDB } from "../models/Post";
 import { TokenPayload } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
@@ -41,13 +43,6 @@ export class PostBusiness {
         const newPostDB: PostModelDB = newPost.postToDBModel()
 
         await this.postDatabase.insertPostDB(newPostDB)
-
-        /* const output = {
-            message: 'created post',
-            post: newPost.postToBusinessModel(payload)
-        }
-
-        return output */
     }
 
     public getPosts = async (input: GetPostsInputDTO): Promise<GetPostsOutputDTO> => {
@@ -76,5 +71,39 @@ export class PostBusiness {
         return posts
     }
 
-    
+    public editPost = async (input: EditPostInputDTO): Promise<void> => {
+        const { id, token, content } = input
+        
+        const payload: TokenPayload | null = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("Invalid TOKEN");
+        }
+        /* Verificando se a postagem referente ao id enviado existe */
+        const postDB = await this.postDatabase.getPostById(id)
+
+        if (!postDB) {
+            throw new NotFoundError("ID not found");
+        }
+        /* Verificando se o token enviado é do criador da postagem */
+        if (payload.id !== postDB.creator_id) {
+            throw new BadRequestError("You are not creator of the post");
+        }
+
+        /* Criando uma nova instância de Post para inserir */
+        const postToUpdate = new Post(
+            postDB.id,
+            postDB.creator_id,
+            content,
+            postDB.likes,
+            postDB.dislikes,
+            postDB.created_at,
+            postDB.updated_at
+        )
+        const postToUpdateDB: PostModelDB = postToUpdate.postToDBModel()
+
+        await this.postDatabase.updatePost(postToUpdateDB)
+       
+    }
+
 }

@@ -1,5 +1,3 @@
-import { TokenPayload } from "./User"
-
 
 export interface PostModelDB {
     id: string,
@@ -11,19 +9,22 @@ export interface PostModelDB {
     updated_at: string
 }
 
-export interface CreatorPost {
-    id: string,
-    name: string
+export interface PostModel extends PostModelDB{
+    creatorId: string,
+    creatorName: string
 }
 
-export interface PostModel {
+export interface PostModelOutput {
     id: string,
     content: string,
     likes: number,
     dislikes: number,
     createdAt: string,
     updatedAt: string,
-    creator: CreatorPost
+    creator: {
+        id: string,
+        name: string
+    }
 }
 
 export class Post {
@@ -47,7 +48,7 @@ export class Post {
     public setCreatorId(newCreatorId : string) {
         this.creatorId = newCreatorId;
     }
-    
+
     public getContent() : string {
         return this.content
     }
@@ -97,7 +98,7 @@ export class Post {
     }
 
     /* método do GetPost */
-    postToBusinessModel = (payload: TokenPayload): PostModel => {
+    postToBusinessModel = (creatorId: string, creatorName: string): PostModelOutput => {
         return {
             id: this.id,
             content: this.content,
@@ -106,13 +107,10 @@ export class Post {
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
             creator: {
-                id: payload.id,
-                name: payload.name
+                id: creatorId,
+                name: creatorName
             }
         }
     }
-
-
-
 
 }

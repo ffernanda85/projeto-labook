@@ -1,6 +1,6 @@
 import express from 'express'
 import { PostController } from '../controller/PostController'
-import { PostBusiness } from '../business/users/PostBusiness'
+import { PostBusiness } from '../business/PostBusiness'
 import { TokenManager } from '../services/TokenManager'
 import { PostDatabase } from '../database/PostDatabase'
 import { IdGenerator } from '../services/IdGenerator'
@@ -16,3 +16,4 @@ const postController = new PostController(
 )
 
 postRouter.post("/", postController.createPost)
+postRouter.get("/", postController.getPosts)

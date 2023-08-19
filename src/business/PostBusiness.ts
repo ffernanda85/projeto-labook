@@ -1,11 +1,12 @@
 import { PostDatabase } from "../database/PostDatabase";
 import { CreatePostInputDTO } from "../dtos/posts/createPost.dto";
+import { DeletePostInputDTO } from "../dtos/posts/deletePost.dto";
 import { EditPostInputDTO } from "../dtos/posts/editPost.dto";
 import { GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/posts/getPost.dto";
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { Post, PostModel, PostModelDB } from "../models/Post";
-import { TokenPayload } from "../models/User";
+import { TokenPayload, USER_ROLES } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
 
@@ -106,4 +107,24 @@ export class PostBusiness {
        
     }
 
+    public deletePost = async (input: DeletePostInputDTO): Promise<void> => {
+        const { token, id } = input
+
+        /* Verificando de o token é válido */
+        const payload: TokenPayload | null = this.tokenManager.getPayload(token)
+        if (payload === null) {
+            throw new BadRequestError("Invalid TOKEN");
+        }
+        /* verifcando no DB se o ID informado confere com alguma postagem */
+        const postDB: PostModelDB = await this.postDatabase.getPostById(id)
+        if (!postDB) {
+            throw new NotFoundError("ID not found");
+        }
+        /* verificando se o ID do criador da postagem bate com o do TOKEN informado ou se ele tem uma conta ADMIN*/
+        if (postDB.creator_id !== payload.id && payload.role !== USER_ROLES.ADMIN) {
+            throw new BadRequestError("Not Authorized!");
+        }
+        /* enviando o id da postagem como argumento para fazer a deleção no DB */
+        await this.postDatabase.deletePostById(id)
+    }
 }

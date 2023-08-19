@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
 import { ZodError } from "zod";
 import { BaseError } from "../errors/BaseError";
-import { CreatePostInputDTO, CreatePostSchema } from "../dtos/posts/createPost.dto";
+import { CreatePostSchema } from "../dtos/posts/createPost.dto";
 import { PostBusiness } from "../business/PostBusiness";
 import { GetPostSchema } from "../dtos/posts/getPost.dto";
 import { EditPostSchema } from "../dtos/posts/editPost.dto";
+import { DeletePostSchema } from "../dtos/posts/deletePost.dto";
 
 
-export class PostController{
+export class PostController {
 
     constructor(
         private postBusiness: PostBusiness
-    ){}
+    ) { }
 
     public createPost = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -39,7 +40,7 @@ export class PostController{
 
     public getPosts = async (req: Request, res: Response): Promise<void> => {
         try {
-            
+
             const input = GetPostSchema.parse({
                 token: req.headers.authorization
             })
@@ -72,12 +73,37 @@ export class PostController{
             await this.postBusiness.editPost(input)
 
             res.status(200).send()
-            
+
         } catch (error: unknown) {
             console.log(error)
 
             if (error instanceof ZodError) {
                 res.status(400).send(error.issues)
+            } else if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
+            } else {
+                res.status(500).send("unexpected error")
+            }
+        }
+    }
+
+    public deletePost = async (req: Request, res: Response) => {
+        try {
+
+            const input = DeletePostSchema.parse({
+                token: req.headers.authorization,
+                id: req.params.id
+            })
+
+            await this.postBusiness.deletePost(input)
+
+            res.status(200).send()
+        } catch (error: unknown) {
+            console.log(error)
+
+            if (error instanceof ZodError) {
+                res.status(400).send(error.issues)
+
             } else if (error instanceof BaseError) {
                 res.status(error.statusCode).send(error.message)
             } else {

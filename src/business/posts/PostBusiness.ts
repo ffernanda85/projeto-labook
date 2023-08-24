@@ -151,7 +151,7 @@ export class PostBusiness {
         }
         
         /* Transformando o like em inteiro para passar para o DB */
-        const likePost: number = like ? 1 : 0
+        const likePost: number = Number(like)
 
         /* Criando o obj de likes_dislikes */
         const like_dislike: LikeDislikeDBModel = {
@@ -184,10 +184,10 @@ export class PostBusiness {
                 //se o like enviado não for igual ao existente no registro, vamos precisar editar nosso registro no DB
                 await this.likeDislikeDatabase.updateLikesDislikes(like_dislike)
 
-                await this.postDatabase.reverseLikeDislike(postId, likePost)
-
+                likePost === 1 ?
+                    await this.postDatabase.reverseLikeUp(postId) :
+                    await this.postDatabase.reverseDislikeUp(postId)
             }
-
         }
 
 

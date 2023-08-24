@@ -17,7 +17,7 @@ CREATE TABLE posts(
     created_at TEXT NOT NULL DEFAULT(DATETIME()),
     updated_at TEXT NOT NULL DEFAULT(DATETIME()),
     Foreign Key (creator_id) REFERENCES users(id)
-    --ON UPDATE CASCADE
+    ON UPDATE CASCADE
     --ON DELETE CASCADE
 );
 
@@ -26,20 +26,5 @@ CREATE TABLE likes_dislikes(
     post_id TEXT NOT NULL,
     like INTEGER NOT NULL,
     Foreign Key (user_id) REFERENCES users(id),
-   -- ON UPDATE CASCADE
-   -- ON DELETE CASCADE,
     Foreign Key (post_id) REFERENCES posts(id)
-   -- ON UPDATE CASCADE
-   -- ON DELETE CASCADE
 );
-
-
-/* TOKEN Severina:
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyM2ZiZDExLTg2ZTctNDUyZC1iOTAwLTk5YzYwZGRkYWNmMiIsIm5hbWUiOiJTZXZlcmluYSBNYXJpYSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2OTI3Mjk3NzAsImV4cCI6MTY5MzU5Mzc3MH0.-9SHALqNhn3v-oPa0uuVgFazZgGOi2NrfiiAU1p5Rz4
-
-Token web:
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4MDRmNmYxLWYzZmQtNDljOC04NmRiLWIxYTRmMWZmNmUwZSIsIm5hbWUiOiJXZWJlcnZhbGRvIEdlcmFsZGlubyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjcyOTgzMywiZXhwIjoxNjkzNTkzODMzfQ.8ByqET9RSy4yPWfYgUxTgOHH-eQqHDjwCgL1ye6KTY0
-
- */

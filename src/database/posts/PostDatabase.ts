@@ -1,11 +1,12 @@
-import { LikeDislikeDBModel, PostModel, PostModelDB } from "../../models/Post";
+import { PostModel, PostModelDB } from "../../models/Post";
 import { BaseDatabase } from "../BaseDatabase";
 
 export class PostDatabase extends BaseDatabase {
     TABLE_NAME = "posts"
 
     public insertPostDB = async (newPostDB: PostModelDB): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).insert(newPostDB)
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .insert(newPostDB)
     }
 
     public getAllPosts = async (): Promise<PostModel[]> => {
@@ -27,39 +28,59 @@ export class PostDatabase extends BaseDatabase {
     }
 
     public getPostById = async (id: string): Promise<PostModelDB> => {
-        const [postDB]: PostModelDB[] = await BaseDatabase.connection(this.TABLE_NAME).where({ id })
+        const [postDB]: PostModelDB[] = await BaseDatabase.connection(this.TABLE_NAME)
+            .where({ id })
 
         return postDB
     }
 
     public updatePost = async (postUpdate: PostModelDB): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).update(postUpdate).where({ id: postUpdate.id })
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .update(postUpdate)
+            .where({ id: postUpdate.id })
     }
 
     public deletePostById = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).del().where({ id })
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .del()
+            .where({ id })
     }
 
     public incrementLike = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).where({ id }).increment('likes')
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .where({ id })
+            .increment('likes')
     }
 
     public decrementLike = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).where({ id }).decrement('likes')
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .where({ id })
+            .decrement('likes')
     }
 
     public incrementDislike = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).where({ id }).increment('dislikes')
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .where({ id })
+            .increment('dislikes')
     }
 
     public decrementDislike = async (id: string): Promise<void> => {
-        await BaseDatabase.connection(this.TABLE_NAME).where({ id }).decrement('dislikes')
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .where({ id })
+            .decrement('dislikes')
     }
 
-    public reverseLikeDislike = async (postId: string, like: number): Promise<void> => {
-        like === 1 ?
-            await BaseDatabase.connection(this.TABLE_NAME).increment('likes').decrement('dislikes').where({ id : postId })
-            :
-            await BaseDatabase.connection(this.TABLE_NAME).increment('dislikes').decrement('likes').where({ id : postId })
+    public reverseLikeUp = async (postId: string): Promise<void> => {
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .increment('likes')
+            .decrement('dislikes')
+            .where({ id: postId })
+    }
+
+    public reverseDislikeUp = async (postId: string): Promise<void> => {
+        await BaseDatabase.connection(this.TABLE_NAME)
+            .increment('dislikes')
+            .decrement('likes')
+            .where({ id: postId })        
     }
 }

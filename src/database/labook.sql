@@ -8,14 +8,6 @@ CREATE TABLE users(
     created_at TEXT NOT NULL DEFAULT(DATETIME())
 );
 
-INSERT INTO users(id, name, email, password, role)
-VALUES
-    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123', 'NORMAL'),
-    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123', 'NORMAL'),
-    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018', 'NORMAL');
-
-DROP TABLE users;
-
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     creator_id TEXT NOT NULL,
@@ -23,36 +15,16 @@ CREATE TABLE posts(
     likes INTEGER NOT NULL,
     dislikes INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT(DATETIME()),
-    update_at TEXT NOT NULL DEFAULT(DATETIME()),
+    updated_at TEXT NOT NULL DEFAULT(DATETIME()),
     Foreign Key (creator_id) REFERENCES users(id)
-    --ON UPDATE CASCADE
+    ON UPDATE CASCADE
     --ON DELETE CASCADE
 );
 
-INSERT INTO posts(id, creator_id, content, likes, dislikes)
-VALUES
-    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023', 0, 0),
-    ('p002', 'u003', 'olá, O SENHOR é conosco', 0, 0);
-
-CREATE TABLE likes(
+CREATE TABLE likes_dislikes(
     user_id TEXT NOT NULL,
     post_id TEXT NOT NULL,
     like INTEGER NOT NULL,
     Foreign Key (user_id) REFERENCES users(id),
-   -- ON UPDATE CASCADE
-   -- ON DELETE CASCADE,
     Foreign Key (post_id) REFERENCES posts(id)
-   -- ON UPDATE CASCADE
-   -- ON DELETE CASCADE
 );
-
-INSERT INTO likes(user_id, post_id, like)
-VALUES
-    ('u001', 'p001', 1),
-    ('u001', 'p002', 1),
-    ('u002', 'p001', 1),
-    ('u002', 'p002', 1),
-    ('u003', 'p001', 1),
-    ('u003', 'p002', 1);
-
-DROP TABLE users;

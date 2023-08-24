@@ -1,6 +1,6 @@
 import express from 'express'
-import { UserController } from '../controller/UserController'
-import { UserDatabase } from '../database/UserDatabase'
+import { UserController } from '../controller/users/UserController'
+import { UserDatabase } from '../database/users/UserDatabase'
 import { UserBusiness } from '../business/users/UserBusiness'
 import { IdGenerator } from '../services/IdGenerator'
 import { TokenManager } from '../services/TokenManager'

@@ -8,14 +8,6 @@ CREATE TABLE users(
     created_at TEXT NOT NULL DEFAULT(DATETIME())
 );
 
-INSERT INTO users(id, name, email, password, role)
-VALUES
-    ('u001', 'Severina Maria da Silva', 'seve@email.com', 'seve123', 'NORMAL'),
-    ('u002', 'Antônio Ferreira', 'tonho@email.com', 'toinho123', 'NORMAL'),
-    ('u003', 'Flávia & Izabela', 'fi28112018@email.com', 'fi28112018', 'NORMAL');
-
-DROP TABLE users;
-
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     creator_id TEXT NOT NULL,
@@ -29,12 +21,7 @@ CREATE TABLE posts(
     --ON DELETE CASCADE
 );
 
-INSERT INTO posts(id, creator_id, content, likes, dislikes)
-VALUES
-    ('p001', 'u003', 'olá, ganhamos o premio de 05/08/2023', 0, 0),
-    ('p002', 'u003', 'olá, O SENHOR é conosco', 0, 0);
-
-CREATE TABLE likes(
+CREATE TABLE likes_dislikes(
     user_id TEXT NOT NULL,
     post_id TEXT NOT NULL,
     like INTEGER NOT NULL,
@@ -46,13 +33,13 @@ CREATE TABLE likes(
    -- ON DELETE CASCADE
 );
 
-INSERT INTO likes(user_id, post_id, like)
-VALUES
-    ('u001', 'p001', 1),
-    ('u001', 'p002', 1),
-    ('u002', 'p001', 1),
-    ('u002', 'p002', 1),
-    ('u003', 'p001', 1),
-    ('u003', 'p002', 1);
 
-DROP TABLE posts;
+/* TOKEN Severina:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyM2ZiZDExLTg2ZTctNDUyZC1iOTAwLTk5YzYwZGRkYWNmMiIsIm5hbWUiOiJTZXZlcmluYSBNYXJpYSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2OTI3Mjk3NzAsImV4cCI6MTY5MzU5Mzc3MH0.-9SHALqNhn3v-oPa0uuVgFazZgGOi2NrfiiAU1p5Rz4
+
+Token web:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4MDRmNmYxLWYzZmQtNDljOC04NmRiLWIxYTRmMWZmNmUwZSIsIm5hbWUiOiJXZWJlcnZhbGRvIEdlcmFsZGlubyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjcyOTgzMywiZXhwIjoxNjkzNTkzODMzfQ.8ByqET9RSy4yPWfYgUxTgOHH-eQqHDjwCgL1ye6KTY0
+
+ */

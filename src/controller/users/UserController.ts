@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { SignupOutputDTO, SignupSchema } from "../dtos/users/signup.dto";
+import { SignupOutputDTO, SignupSchema } from "../../dtos/users/signup.dto";
 import { ZodError } from 'zod'
-import { BaseError } from "../errors/BaseError";
-import { UserBusiness } from "../business/users/UserBusiness";
-import { LoginInputDTO, LoginSchema } from "../dtos/users/login.dto";
+import { BaseError } from "../../errors/BaseError";
+import { UserBusiness } from "../../business/users/UserBusiness";
+import { LoginInputDTO, LoginSchema } from "../../dtos/users/login.dto";
 
 export class UserController{
 

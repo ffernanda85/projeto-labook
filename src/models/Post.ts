@@ -27,6 +27,12 @@ export interface PostModelOutput {
     }
 }
 
+export interface LikeDislikeDBModel {
+    user_id: string,
+    post_id: string,
+    like: number
+}
+
 export class Post {
     constructor(
         private id: string,

@@ -1,7 +1,8 @@
 # Labook
 
 O Labook é uma rede social com o objetivo de promover a conexão e interação entre pessoas. Quem se cadastrar no aplicativo poderá criar e curtir publicações.
-<hr><br>
+
+<br>
 
 ## ✏️ Índice:
 
@@ -36,7 +37,6 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 - [x] Like / Dislike
 
 <br>
-
 <span id="requisicoes"></span>
 
 ## 2. 📲 Requisições
@@ -59,7 +59,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ### Signup: 
 * Endpoint público utilizado para cadastro. Devolve um token JWT.
 
-```json
+```bash
 // request POST /users/signup
 // body JSON
 {
@@ -76,7 +76,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ```
 ### Login: 
 * Endpoint público utilizado para login. Devolve um token JWT.
-```json
+```bash
 // request POST /users/login
 // body JSON
 {
@@ -97,7 +97,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ### Create Post: 
 
 * Executa a criação de novos posts. Endpoint protegido, requer um token jwt para acessá-lo.
-```json
+```bash
 // request POST /posts
 // headers.authorization = "token jwt"
 // body JSON
@@ -111,7 +111,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 
 ### Get Posts: 
 * Endpoint protegido, requer um token JWT para acessá-lo.
-```json
+```bash
 // request GET /posts
 // headers.authorization = "token jwt"
 
@@ -148,7 +148,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ### Edit Post: 
 * Endpoint protegido, requer um token jwt para acessá-lo.
 Só quem criou o post pode editá-lo e somente o conteúdo pode ser editado.
-```json
+```bash
 // request PUT /posts/:id
 // headers.authorization = "token jwt"
 // body JSON
@@ -163,7 +163,7 @@ Só quem criou o post pode editá-lo e somente o conteúdo pode ser editado.
 ### Delete Post: 
 * Endpoint protegido, requer um token jwt para acessá-lo.
 Só quem criou o post pode deletá-lo. Admins podem deletar o post de qualquer pessoa.
-```json
+```bash
 // request DELETE /posts/:id
 // headers.authorization = "token jwt"
 
@@ -180,7 +180,7 @@ Só quem criou o post pode deletá-lo. Admins podem deletar o post de qualquer p
 * Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like.
 
 ### Like (funcionalidade 1)
-```json
+```bash
 // request PUT /posts/:id/like
 // headers.authorization = "token jwt"
 // body JSON
@@ -193,7 +193,7 @@ Só quem criou o post pode deletá-lo. Admins podem deletar o post de qualquer p
 ```
 
 ### Dislike (funcionalidade 2)
-```json
+```bash
 // request PUT /posts/:id/like
 // headers.authorization = "token jwt"
 // body JSON
@@ -263,12 +263,9 @@ $ npm run dev
 <span id="pessoas-autoras"></span>
 
 ## 👩🏽‍💻Pessoas Autoras:
-<br>
 
 <img style='width:130px'  src='https://avatars.githubusercontent.com/u/114631584?v=4' alt='pessoa desenvolvedora'>
-<br/>
 
 <h4>Flávia Santos</h4>
-<br/>
 
 Linkedin: https://www.linkedin.com/in/flavia-santos-dev/

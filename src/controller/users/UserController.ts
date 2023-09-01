@@ -11,7 +11,7 @@ export class UserController{
         private userBusiness: UserBusiness
     ) {  }
 
-    signup = async (req: Request, res: Response): Promise<void> => {
+    public signup = async (req: Request, res: Response): Promise<void> => {
         try {
             const input = SignupSchema.parse({
                 name: req.body.name,
@@ -33,7 +33,7 @@ export class UserController{
         }
     }
 
-    login = async (req: Request, res: Response): Promise<void> => {
+    public login = async (req: Request, res: Response): Promise<void> => {
         try {
             
             const input: LoginInputDTO = LoginSchema.parse({
